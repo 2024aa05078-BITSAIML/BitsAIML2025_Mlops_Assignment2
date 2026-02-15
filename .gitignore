@@ -11,9 +11,13 @@ logs/
 mlruns/
 
 .dvc/
-data/
 *.pt
 *.h5
 *.pkl
 
 .DS_Store
+
+# Ignore actual dataset but keep DVC metadata
+data/raw/*
+!data/raw.dvc
+!data/.gitignore
