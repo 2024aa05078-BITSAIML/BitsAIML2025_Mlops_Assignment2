@@ -2,6 +2,8 @@ import sys
 import os
 import pytest
 import torch
+import numpy as np
+from PIL import Image
 
 # --------------------------------------------------
 # Make 'src' importable in CI environment
@@ -18,7 +20,7 @@ def setup_test_environment():
     """
     This fixture prepares CI-safe environment:
     - creates dummy trained model
-    - creates minimal dataset folder structure
+    - creates minimal dataset folder structure with fake images
     """
 
     # -----------------------------
@@ -30,7 +32,7 @@ def setup_test_environment():
     torch.save(model.state_dict(), "artifacts/model.pt")
 
     # -----------------------------
-    # Create fake dataset structure
+    # Create fake dataset structure with dummy images
     # -----------------------------
     base = "data/processed"
     splits = ["train", "val", "test"]
@@ -40,5 +42,11 @@ def setup_test_environment():
         for cls in classes:
             path = os.path.join(base, split, cls)
             os.makedirs(path, exist_ok=True)
+            
+            # Create 2 dummy images per class/split
+            for i in range(2):
+                img_array = np.random.randint(0, 256, (224, 224, 3), dtype=np.uint8)
+                img = Image.fromarray(img_array)
+                img.save(os.path.join(path, f"{i}.jpg"))
 
     yield
