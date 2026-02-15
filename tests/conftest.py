@@ -1,8 +1,16 @@
+import sys
 import os
-import torch
 import pytest
+import torch
 
-from src.model.model import SimpleCNN
+# --------------------------------------------------
+# Make 'src' importable in CI environment
+# --------------------------------------------------
+PROJECT_ROOT = os.path.abspath(os.path.join(os.path.dirname(__file__), ".."))
+sys.path.insert(0, PROJECT_ROOT)
+
+
+from src.models.model import SimpleCNN
 
 
 @pytest.fixture(scope="session", autouse=True)
