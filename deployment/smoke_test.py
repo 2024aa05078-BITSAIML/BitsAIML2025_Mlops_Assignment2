@@ -2,8 +2,33 @@ import requests
 from PIL import Image
 import io
 import numpy as np
+import requests
+import time
 
 BASE_URL = "http://localhost:8000"
+
+
+def wait_for_service(timeout=60):
+    """
+    Wait until the FastAPI service becomes reachable.
+    Required for CI where container startup is asynchronous.
+    """
+    print("Waiting for service to become ready...")
+
+    start = time.time()
+    while time.time() - start < timeout:
+        try:
+            r = requests.get(f"{BASE_URL}/health")
+            if r.status_code == 200:
+                print("[OK] Service is ready")
+                return
+        except requests.exceptions.ConnectionError:
+            pass
+
+        time.sleep(2)
+
+    raise RuntimeError("Service did not become ready in time")
+
 
 def create_test_image():
     """
@@ -20,6 +45,7 @@ def create_test_image():
 
 
 def test_health():
+    wait_for_service()   # 👈 ADD THIS
     r = requests.get(f"{BASE_URL}/health")
     assert r.status_code == 200
     print("[OK] Health endpoint working")
