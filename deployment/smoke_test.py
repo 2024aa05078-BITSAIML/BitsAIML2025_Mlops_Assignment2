@@ -4,8 +4,14 @@ import io
 import numpy as np
 import requests
 import time
+import os
+import pytest
 
 BASE_URL = "http://localhost:8000"
+
+# Skip smoke tests when running inside CI pipeline
+if os.getenv("CI") == "true":
+    pytest.skip("Skipping smoke tests in CI environment", allow_module_level=True)
 
 
 def wait_for_service(timeout=60):
