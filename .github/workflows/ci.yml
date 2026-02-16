@@ -74,3 +74,10 @@ jobs:
 
     - name: Check Running Containers
       run: docker ps
+
+    # -----------------------------
+    # Run Smoke Tests (POST-DEPLOY)
+    # -----------------------------
+    - name: Run Smoke Tests
+      run: |
+        python deployment/smoke_test.py
