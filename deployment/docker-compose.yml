@@ -1,0 +1,9 @@
+version: "3.9"
+
+services:
+  catsdogs-api:
+    image: 2024aa05078/cats-dogs-mlops:latest
+    container_name: catsdogs-api
+    ports:
+      - "8000:8000"
+    restart: always
