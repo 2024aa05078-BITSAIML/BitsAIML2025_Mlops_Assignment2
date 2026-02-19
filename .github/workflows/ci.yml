@@ -48,11 +48,7 @@ jobs:
     # -----------------------------
     - name: Build Docker Image
       run: docker build -t 2024aa05078/cat-dog-classifier:latest .
-
-    # -----------------------------
-    # Push Image to Docker Hub  ⭐ THIS WAS MISSING
-    # -----------------------------
-    - name: Push Docker Image
+    - name: Docker Image
       run: docker push 2024aa05078/cat-dog-classifier:latest
 
   deploy:
